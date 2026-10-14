@@ -1,0 +1,2083 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartTrip AI | Your Next Adventure Starts Here</title>
+    <meta name="description"
+          content="Discover destinations, create personalised itineraries and plan your travel budget with SmartTrip AI.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Keep your existing stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --navy: #142337;
+            --navy-dark: #0c1928;
+            --teal: #087f76;
+            --teal-light: #dff5ef;
+            --gold: #f1bd70;
+            --ink: #1b2b40;
+            --muted: #748196;
+            --page: #f5f7fa;
+            --white: #ffffff;
+            --border: #e7ebf1;
+            --shadow: 0 18px 55px rgba(23, 40, 62, .08);
+            --radius: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.6;
+        }
+
+        body, input, select, button {
+            font-family: "DM Sans", sans-serif;
+        }
+
+        button, input, select {
+            font-size: inherit;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1180px, calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        .site-header {
+            position: sticky;
+            z-index: 100;
+            top: 0;
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid rgba(231, 235, 241, .9);
+            backdrop-filter: blur(18px);
+        }
+
+        .navbar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            flex-shrink: 0;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            color: white;
+            background: linear-gradient(135deg, #119d8e, #076c68);
+            font-size: 23px;
+            box-shadow: 0 7px 18px rgba(8, 127, 118, .22);
+        }
+
+        .brand-name {
+            display: block;
+            font: 800 22px/1.15 "Manrope", sans-serif;
+            letter-spacing: -.8px;
+            color: var(--navy);
+        }
+
+        .brand-caption {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #546276;
+            font-size: 13px;
+            font-weight: 700;
+            transition: color .2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--teal);
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 12px 18px;
+            background: var(--navy);
+            color: white;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform .2s, background .2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--teal);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+
+        .hero-wrap {
+            padding: 30px 0 0;
+        }
+
+        .hero {
+            isolation: isolate;
+            position: relative;
+            overflow: hidden;
+            min-height: 405px;
+            display: flex;
+            align-items: center;
+            padding: 58px clamp(25px, 6vw, 80px);
+            border-radius: 30px;
+            color: white;
+            background:
+                linear-gradient(90deg,
+                    rgba(10, 25, 40, .93) 0%,
+                    rgba(10, 25, 40, .82) 43%,
+                    rgba(10, 25, 40, .23) 100%),
+                url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1900&q=85")
+                center 48% / cover;
+            box-shadow: 0 23px 55px rgba(15, 34, 53, .16);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: min(650px, 100%);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            width: fit-content;
+            padding: 8px 13px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .09);
+            color: #d8fff4;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #65e4ba;
+            box-shadow: 0 0 12px rgba(101, 228, 186, .75);
+        }
+
+        .hero h1 {
+            max-width: 640px;
+            margin: 22px 0 14px;
+            font: 800 clamp(36px, 5.3vw, 62px)/1.1 "Manrope", sans-serif;
+            letter-spacing: -2.5px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero-copy {
+            max-width: 490px;
+            margin: 0;
+            color: rgba(255, 255, 255, .8);
+            font-size: 15px;
+            line-height: 1.85;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-top: 27px;
+        }
+
+        .button-primary,
+        .button-secondary,
+        .button-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 47px;
+            padding: 13px 19px;
+            border: 0;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform .2s, background .2s, box-shadow .2s;
+        }
+
+        .button-primary {
+            background: var(--teal);
+            color: white;
+            box-shadow: 0 8px 20px rgba(8, 127, 118, .18);
+        }
+
+        .button-primary:hover {
+            background: #066a64;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 23px rgba(8, 127, 118, .25);
+        }
+
+        .button-secondary {
+            background: rgba(255, 255, 255, .11);
+            border: 1px solid rgba(255, 255, 255, .24);
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: rgba(255, 255, 255, .2);
+        }
+
+        .hero-note {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 23px;
+            color: rgba(255, 255, 255, .73);
+            font-size: 11px;
+        }
+
+        .hero-note strong {
+            color: #fff;
+        }
+
+        /* Trust strip */
+
+        .trust-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 25px 0;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            padding: 8px 18px;
+        }
+
+        .trust-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #e4f4f0;
+            color: var(--teal);
+            font-size: 20px;
+        }
+
+        .trust-item:nth-child(2) .trust-icon {
+            color: #a66a16;
+            background: #fff0d9;
+        }
+
+        .trust-item:nth-child(3) .trust-icon {
+            color: #536fc0;
+            background: #e9edff;
+        }
+
+        .trust-item strong {
+            display: block;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .trust-item span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* Section headings */
+
+        .section {
+            padding: 33px 0;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 22px;
+            margin-bottom: 23px;
+        }
+
+        .section-kicker {
+            margin: 0 0 7px;
+            color: var(--teal);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font: 800 clamp(23px, 3vw, 32px)/1.25 "Manrope", sans-serif;
+            letter-spacing: -1px;
+            color: var(--navy);
+        }
+
+        .section-heading p {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .section-link {
+            flex-shrink: 0;
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* Planner */
+
+        .planner-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 285px;
+            align-items: start;
+            gap: 22px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .planner-panel {
+            padding: clamp(22px, 3vw, 34px);
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 26px;
+        }
+
+        .panel-heading h3 {
+            margin: 0;
+            font: 800 20px/1.35 "Manrope", sans-serif;
+            letter-spacing: -.5px;
+        }
+
+        .panel-heading p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .step-pill {
+            flex-shrink: 0;
+            padding: 7px 10px;
+            border-radius: 9px;
+            color: var(--teal);
+            background: var(--teal-light);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 21px 18px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label,
+        .field-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #344257;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .label-icon {
+            margin-right: 7px;
+            color: var(--teal);
+        }
+
+        .field-control {
+            display: block;
+            width: 100%;
+            min-height: 49px;
+            padding: 12px 14px;
+            border: 1px solid #dfe5ed;
+            border-radius: 12px;
+            outline: none;
+            background: #fbfcfe;
+            color: var(--ink);
+            font-size: 13px;
+            transition: border .2s, box-shadow .2s, background .2s;
+        }
+
+        .field-control:focus {
+            border-color: #47a99b;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(8, 127, 118, .09);
+        }
+
+        .field-control::placeholder {
+            color: #9ba5b4;
+        }
+
+        select.field-control {
+            cursor: pointer;
+        }
+
+        .field-hint {
+            display: block;
+            margin: 7px 0 0;
+            color: #8a96a7;
+            font-size: 10px;
+        }
+
+        .scope-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .scope-option {
+            position: relative;
+        }
+
+        .scope-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scope-option span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 47px;
+            padding: 10px;
+            border: 1px solid #dfe5ed;
+            border-radius: 11px;
+            background: #fbfcfe;
+            color: #657286;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .scope-option input:checked + span {
+            border-color: var(--teal);
+            color: var(--teal);
+            background: #edf9f6;
+            box-shadow: inset 0 0 0 1px var(--teal);
+        }
+
+        .scope-option input:focus-visible + span {
+            outline: 3px solid rgba(8, 127, 118, .2);
+        }
+
+        /* Budget presets */
+
+        .budget-presets {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .preset-button {
+            padding: 13px 8px;
+            text-align: left;
+            border: 1px solid #e1e6ee;
+            border-radius: 12px;
+            background: white;
+            color: var(--ink);
+            transition: .2s ease;
+        }
+
+        .preset-button:hover {
+            border-color: #77bdb2;
+            transform: translateY(-2px);
+        }
+
+        .preset-button strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .preset-button small {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .preset-button[data-budget="15000"] {
+            background: #f5f9ff;
+        }
+
+        .preset-button[data-budget="40000"] {
+            background: #effaf6;
+        }
+
+        .preset-button[data-budget="80000"] {
+            background: #fff8ec;
+        }
+
+        .budget-input-wrap {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            color: #758196;
+            font-size: 14px;
+            font-weight: 700;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .budget-input-wrap .field-control {
+            padding-left: 34px;
+        }
+
+        /* Interest checkboxes populated by app.js */
+
+        #interest-fields {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        #interest-fields label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 11px 10px;
+            margin: 0;
+            border: 1px solid #e4e9f0;
+            border-radius: 11px;
+            background: #fbfcfe;
+            color: #516075;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #interest-fields input[type="checkbox"] {
+            flex-shrink: 0;
+            accent-color: var(--teal);
+            margin: 3px 0 0;
+        }
+
+        #interest-fields label:has(input:checked) {
+            border-color: #80c7b9;
+            background: #effaf7;
+            color: #087f76;
+        }
+
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 26px;
+            padding-top: 23px;
+            border-top: 1px solid var(--border);
+        }
+
+        .form-footer-note {
+            max-width: 290px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .submit-button {
+            min-width: 190px;
+        }
+
+        /* Planner sidebar */
+
+        .planner-sidebar {
+            display: grid;
+            gap: 17px;
+        }
+
+        .sidebar-card {
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(23, 40, 62, .045);
+        }
+
+        .sidebar-card h3 {
+            margin: 0 0 8px;
+            font: 800 16px "Manrope", sans-serif;
+        }
+
+        .sidebar-card > p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.75;
+        }
+
+        .how-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 19px;
+        }
+
+        .how-number {
+            display: grid;
+            place-items: center;
+            width: 31px;
+            height: 31px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            color: var(--teal);
+            background: var(--teal-light);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .how-step strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .how-step p {
+            margin: 3px 0 0;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.65;
+        }
+
+        .estimate-card {
+            overflow: hidden;
+            position: relative;
+            color: white;
+            border: 0;
+            background:
+                radial-gradient(circle at 100% 0%, rgba(79, 190, 164, .25), transparent 45%),
+                linear-gradient(145deg, #193b4c, #102638);
+        }
+
+        .estimate-card h3 {
+            color: white;
+        }
+
+        .estimate-card > p {
+            color: #c1d0d8;
+        }
+
+        .estimate-card .mini-badge {
+            display: inline-block;
+            margin-bottom: 13px;
+            padding: 6px 9px;
+            border-radius: 7px;
+            color: #b7f5df;
+            background: rgba(255, 255, 255, .09);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .estimate-points {
+            display: grid;
+            gap: 10px;
+            margin-top: 17px;
+            color: #e3ebef;
+            font-size: 11px;
+        }
+
+        .estimate-points span::before {
+            content: "✓";
+            margin-right: 9px;
+            color: #76e3bd;
+            font-weight: 900;
+        }
+
+        /* Search / discoveries */
+
+        .discovery-panel {
+            padding: clamp(20px, 3vw, 30px);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 125px auto;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .search-form button {
+            min-width: 140px;
+        }
+
+        .result-summary {
+            margin-bottom: 17px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        #loading {
+            display: none;
+            padding: 20px;
+            border-radius: 12px;
+            background: #edf8f5;
+            color: #087f76;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        #error-message {
+            display: none;
+            margin: 15px 0;
+            padding: 15px 17px;
+            border: 1px solid #f1c9c4;
+            border-radius: 12px;
+            background: #fff4f2;
+            color: #a53c31;
+            font-size: 13px;
+        }
+
+        #destination-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        /* Destination card styling for cards generated by JavaScript */
+
+        .destination-card {
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: white;
+            box-shadow: 0 8px 28px rgba(23, 40, 62, .055);
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(23, 40, 62, .11);
+        }
+
+        .destination-card img {
+            display: block;
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            background: #e8eef2;
+        }
+
+        .destination-card h3 {
+            margin: 0 0 7px;
+            font: 800 17px "Manrope", sans-serif;
+            color: var(--navy);
+        }
+
+        .destination-card p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .destination-card .button-primary,
+        .destination-card button {
+            margin-top: 12px;
+        }
+
+        #result-summary:not(:empty) {
+            margin-bottom: 18px;
+            padding: 15px 18px;
+            border: 1px solid #d9eee8;
+            border-radius: 13px;
+            background: #effaf6;
+            color: #285e56;
+            font-size: 12px;
+        }
+
+        /* Trip detail area */
+
+        #trip-details {
+            padding-top: 44px;
+        }
+
+        .trip-detail-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(270px, .8fr);
+            align-items: start;
+            gap: 20px;
+        }
+
+        .trip-detail-panel {
+            padding: clamp(20px, 3vw, 29px);
+            min-width: 0;
+        }
+
+        #selected-destination {
+            margin-top: 15px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        #itinerary-results {
+            margin-top: 17px;
+        }
+
+        #itinerary-results h3 {
+            color: var(--navy);
+            font-family: "Manrope", sans-serif;
+        }
+
+        #itinerary-results img {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+        #budget-results {
+            margin-top: 16px;
+        }
+
+        #budget-summary {
+            padding: 17px;
+            border-radius: 14px;
+            background: #edf8f5;
+            color: #176e63;
+            font-size: 13px;
+        }
+
+        #budget-breakdown {
+            margin-top: 16px;
+        }
+
+        #budget-breakdown table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        #budget-breakdown th,
+        #budget-breakdown td {
+            padding: 11px 7px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #budget-breakdown th {
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        /* Initial empty state */
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 37px 20px;
+            text-align: center;
+            border: 1px dashed #d5dde7;
+            border-radius: 17px;
+            background: linear-gradient(135deg, #fbfcfe, #f3f8f8);
+        }
+
+        .empty-state-icon {
+            display: grid;
+            place-items: center;
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 14px;
+            border-radius: 17px;
+            background: #e2f5ef;
+            color: var(--teal);
+            font-size: 25px;
+        }
+
+        .empty-state h3 {
+            margin: 0;
+            color: var(--navy);
+            font: 800 16px "Manrope", sans-serif;
+        }
+
+        .empty-state p {
+            max-width: 390px;
+            margin: 8px auto 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* Footer */
+
+        .site-footer {
+            margin-top: 45px;
+            padding: 34px 0;
+            border-top: 1px solid var(--border);
+            background: #fff;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 17px;
+        }
+
+        .footer-inner p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .footer-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6c7a8c;
+            font-size: 11px;
+        }
+
+        /* Responsive layout */
+
+        @media (max-width: 950px) {
+            .planner-layout {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .planner-sidebar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            #destination-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .trip-detail-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .container {
+                width: min(100% - 26px, 1180px);
+            }
+
+            .navbar {
+                min-height: 67px;
+                gap: 12px;
+            }
+
+            .brand-mark {
+                width: 38px;
+                height: 38px;
+            }
+
+            .brand-name {
+                font-size: 19px;
+            }
+
+            .brand-caption {
+                font-size: 8px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .hero-wrap {
+                padding-top: 17px;
+            }
+
+            .hero {
+                min-height: 430px;
+                padding: 32px 23px;
+                border-radius: 23px;
+                background-position: 58% center;
+            }
+
+            .hero h1 {
+                font-size: clamp(36px, 10vw, 48px);
+                letter-spacing: -1.7px;
+            }
+
+            .hero-copy {
+                font-size: 13px;
+            }
+
+            .hero-actions {
+                align-items: stretch;
+            }
+
+            .hero-actions a {
+                flex: 1;
+            }
+
+            .trust-strip {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 18px 0;
+            }
+
+            .trust-item {
+                padding: 7px 3px;
+            }
+
+            .section {
+                padding: 24px 0;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+            }
+
+            .section-link {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .panel-heading {
+                align-items: flex-start;
+            }
+
+            .budget-presets {
+                gap: 7px;
+            }
+
+            .preset-button {
+                padding: 11px 7px;
+            }
+
+            .preset-button strong {
+                font-size: 11px;
+            }
+
+            .preset-button small {
+                font-size: 9px;
+            }
+
+            #interest-fields {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .form-footer {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .submit-button {
+                width: 100%;
+            }
+
+            .planner-sidebar {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .search-form {
+                grid-template-columns: minmax(0, 1fr) 95px;
+            }
+
+            .search-form button {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+
+            #destination-list {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .destination-card img {
+                height: 215px;
+            }
+
+            .footer-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <div class="container navbar">
+            <a class="brand" href="#home" aria-label="SmartTrip home">
+                <span class="brand-mark" aria-hidden="true">✦</span>
+                <span>
+                    <span class="brand-name">SmartTrip</span>
+                    <span class="brand-caption">Travel smarter with AI</span>
+                </span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#planner">Plan a trip</a>
+                <a href="#results">Destinations</a>
+                <a href="#trip-details">My itinerary</a>
+                <a href="#flight-search">Flights</a>
+            </nav>
+
+            <a class="nav-cta" href="#planner">
+                Start planning <span aria-hidden="true">↗</span>
+            </a>
+        </div>
+    </header>
+
+    <main id="home">
+
+        <!-- Hero -->
+        <section class="hero-wrap">
+            <div class="container">
+                <div class="hero">
+                    <div class="hero-content">
+                        <div class="eyebrow">
+                            <span class="eyebrow-dot"></span>
+                            Your personal AI travel planner
+                        </div>
+
+                        <h1>
+                            Less planning.<br>
+                            More <span>wonder.</span>
+                        </h1>
+
+                        <p class="hero-copy">
+                            Discover places you'll love, build a personalised travel
+                            itinerary and understand your trip costs — all in one place.
+                        </p>
+
+                        <div class="hero-actions">
+                            <a href="#planner" class="button-primary">
+                                ✦ Plan my adventure <span aria-hidden="true">→</span>
+                            </a>
+                            <a href="#results" class="button-secondary">
+                                Explore destinations
+                            </a>
+                        </div>
+
+                        <div class="hero-note">
+                            <span aria-hidden="true">◎</span>
+                            <span><strong>Your interests.</strong> Your budget. Your journey.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project benefits -->
+        <section class="container" aria-label="SmartTrip features">
+            <div class="trust-strip">
+                <div class="trust-item">
+                    <div class="trust-icon" aria-hidden="true">⌖</div>
+                    <div>
+                        <strong>Personalised discovery</strong>
+                        <span>Destinations matched to your interests</span>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <div class="trust-icon" aria-hidden="true">₹</div>
+                    <div>
+                        <strong>Budget-conscious planning</strong>
+                        <span>See estimates before you decide</span>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <div class="trust-icon" aria-hidden="true">✧</div>
+                    <div>
+                        <strong>Day-by-day itineraries</strong>
+                        <span>Organise your trip in one place</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trip planner -->
+        <section class="section" id="planner">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Your journey begins here</p>
+                        <h2>Design your perfect getaway</h2>
+                        <p>Tell us what you have in mind. We'll help you explore the possibilities.</p>
+                    </div>
+                </div>
+
+                <div class="planner-layout">
+
+                    <div class="panel planner-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Build your travel profile</h3>
+                                <p>A few details help personalise your recommendations.</p>
+                            </div>
+                            <span class="step-pill">STEP 01 / 03</span>
+                        </div>
+
+                        <form id="recommend-form">
+                            <div class="form-grid">
+
+                                <!-- Origin -->
+                                <div class="form-group">
+                                    <label for="origin">
+                                        <span class="label-icon">↗</span>Starting location
+                                    </label>
+                                    <input
+                                        class="field-control"
+                                        type="text"
+                                        id="origin"
+                                        name="origin"
+                                        placeholder="e.g. Chennai, India"
+                                        autocomplete="address-level2"
+                                        required
+                                    >
+                                    <span class="field-hint">Where will your journey begin?</span>
+                                </div>
+
+                                <!-- Dates -->
+                                <div class="form-group">
+                                    <label for="travel-dates">
+                                        <span class="label-icon">▦</span>Travel dates
+                                    </label>
+                                    <select class="field-control" id="travel-dates" name="travel-dates">
+                                        <option value="flexible" selected>I'm flexible with dates</option>
+                                        <option value="specific">I have specific dates in mind</option>
+                                    </select>
+                                    <span class="field-hint">Choose your date preference.</span>
+                                </div>
+
+                                <!-- Duration -->
+                                <div class="form-group">
+                                    <label for="days">
+                                        <span class="label-icon">◷</span>Trip duration
+                                    </label>
+                                    <select class="field-control" id="days" name="days">
+                                        <option value="1">1 day</option>
+                                        <option value="2">2 days</option>
+                                        <option value="3" selected>3 days</option>
+                                        <option value="5">5 days</option>
+                                        <option value="7">7 days</option>
+                                        <option value="10">10 days</option>
+                                        <option value="14">14 days</option>
+                                        <option value="21">21 days</option>
+                                        <option value="30">30 days</option>
+                                    </select>
+                                </div>
+
+                                <!-- Travellers -->
+                                <div class="form-group">
+                                    <label for="travellers">
+                                        <span class="label-icon">♙</span>Travellers
+                                    </label>
+                                    <select class="field-control" id="travellers" name="travellers">
+                                        <option value="1">1 traveller</option>
+                                        <option value="2" selected>2 travellers</option>
+                                        <option value="3">3 travellers</option>
+                                        <option value="4">4 travellers</option>
+                                        <option value="5">5 travellers</option>
+                                        <option value="6">6 travellers</option>
+                                        <option value="7">7 travellers</option>
+                                        <option value="8">8 travellers</option>
+                                        <option value="9">9 travellers</option>
+                                        <option value="10">10 travellers</option>
+                                        <option value="15">15 travellers</option>
+                                        <option value="20">20 travellers</option>
+                                        <option value="25">25 travellers</option>
+                                        <option value="30">30 travellers</option>
+                                        <option value="40">40 travellers</option>
+                                        <option value="50">50 travellers</option>
+                                    </select>
+                                </div>
+
+                                <!-- Destination scope -->
+                                <div class="form-group full-width">
+                                    <span class="field-label">Where would you like to explore?</span>
+                                    <div class="scope-options">
+                                        <label class="scope-option">
+                                            <input
+                                                type="radio"
+                                                id="scope-worldwide"
+                                                name="destination-scope"
+                                                value="worldwide"
+                                                checked
+                                            >
+                                            <span>🌍 Worldwide</span>
+                                        </label>
+
+                                        <label class="scope-option">
+                                            <input
+                                                type="radio"
+                                                id="scope-india"
+                                                name="destination-scope"
+                                                value="india"
+                                            >
+                                            <span>🇮🇳 India only</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Budget style -->
+                                <div class="form-group full-width">
+                                    <label for="budget">
+                                        <span class="label-icon">₹</span>Travel style
+                                    </label>
+                                    <select class="field-control" id="budget" name="budget">
+                                        <option value="Budget">Budget-friendly</option>
+                                        <option value="Mid-range" selected>Comfortable / Mid-range</option>
+                                        <option value="Luxury">Luxury experience</option>
+                                    </select>
+                                </div>
+
+                                <!-- Total budget -->
+                                <div class="form-group full-width">
+                                    <span class="field-label">Your total trip budget</span>
+
+                                    <div class="budget-presets">
+                                        <button
+                                            class="preset-button"
+                                            type="button"
+                                            data-budget="15000"
+                                        >
+                                            <strong>₹15,000</strong>
+                                            <small>Budget trip</small>
+                                        </button>
+
+                                        <button
+                                            class="preset-button"
+                                            type="button"
+                                            data-budget="40000"
+                                        >
+                                            <strong>₹40,000</strong>
+                                            <small>Comfort trip</small>
+                                        </button>
+
+                                        <button
+                                            class="preset-button"
+                                            type="button"
+                                            data-budget="80000"
+                                        >
+                                            <strong>₹80,000</strong>
+                                            <small>Premium trip</small>
+                                        </button>
+                                    </div>
+
+                                    <div class="budget-input-wrap">
+                                        <span class="currency-symbol">₹</span>
+                                        <input
+                                            class="field-control"
+                                            type="number"
+                                            id="total-budget"
+                                            name="total-budget"
+                                            min="500"
+                                            max="100000000"
+                                            step="500"
+                                            value="40000"
+                                            placeholder="Enter total budget"
+                                            required
+                                        >
+                                    </div>
+                                    <span class="field-hint">
+                                        Total for all travellers, not per person.
+                                    </span>
+                                </div>
+
+                                <!-- Interests are populated by the existing app.js -->
+                                <div class="form-group full-width">
+                                    <span class="field-label">What makes a trip special for you?</span>
+                                    <p class="field-hint" style="margin: -2px 0 12px;">
+                                        Select the interests you enjoy. Choose more than one.
+                                    </p>
+                                    <div id="interest-fields">
+                                        <!-- app.js inserts interest checkboxes here -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-footer">
+                                <p class="form-footer-note">
+                                    Your recommendations will be based on your travel
+                                    preferences, trip length and total budget.
+                                </p>
+
+                                <button class="button-primary submit-button" type="submit">
+                                    Find my destinations <span aria-hidden="true">→</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Helpful sidebar -->
+                    <aside class="planner-sidebar" aria-label="Planning information">
+                        <div class="sidebar-card">
+                            <h3>How SmartTrip works</h3>
+                            <p>From inspiration to a trip plan, follow three simple steps.</p>
+
+                            <div class="how-step">
+                                <span class="how-number">01</span>
+                                <div>
+                                    <strong>Discover</strong>
+                                    <p>Get destination ideas based on your interests.</p>
+                                </div>
+                            </div>
+
+                            <div class="how-step">
+                                <span class="how-number">02</span>
+                                <div>
+                                    <strong>Personalise</strong>
+                                    <p>Choose a destination and organise your days.</p>
+                                </div>
+                            </div>
+
+                            <div class="how-step">
+                                <span class="how-number">03</span>
+                                <div>
+                                    <strong>Plan your spend</strong>
+                                    <p>Review estimated costs against your budget.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card estimate-card">
+                            <span class="mini-badge">SMART PLANNING</span>
+                            <h3>A little more adventure. A little less guesswork.</h3>
+                            <p>Keep your destination, itinerary and estimated expenses together while planning.</p>
+
+                            <div class="estimate-points">
+                                <span>Personalised destination suggestions</span>
+                                <span>Trip-length based itinerary</span>
+                                <span>Estimated budget breakdown</span>
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Destination discovery / search -->
+        <section class="section" id="results">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Find somewhere unforgettable</p>
+                        <h2>Your next destination awaits</h2>
+                        <p>Search the travel dataset or view recommendations from your trip profile.</p>
+                    </div>
+                    <a href="#planner" class="section-link">Edit preferences ↑</a>
+                </div>
+
+                <div class="panel discovery-panel">
+
+                    <!-- Retained for compatibility with the earlier search functionality -->
+                    <form id="search-form" class="search-form">
+                        <input
+                            class="field-control"
+                            type="search"
+                            id="search-query"
+                            name="search-query"
+                            placeholder="Search a city, country or travel experience..."
+                            aria-label="Search destinations"
+                        >
+
+                        <select class="field-control" id="search-count" name="search-count"
+                                aria-label="Number of search results">
+                            <option value="3">Top 3</option>
+                            <option value="5" selected>Top 5</option>
+                            <option value="10">Top 10</option>
+                        </select>
+
+                        <button class="button-primary" type="submit">
+                            Search destinations <span aria-hidden="true">⌕</span>
+                        </button>
+                    </form>
+
+                    <div id="loading" role="status" aria-live="polite">
+                        ✦ Finding destinations for your next adventure...
+                    </div>
+
+                    <div id="error-message" role="alert" aria-live="assertive"></div>
+
+                    <div id="result-summary" aria-live="polite"></div>
+
+                    <div id="destination-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon" aria-hidden="true">⌖</div>
+                            <h3>Your next adventure starts here</h3>
+                            <p>
+                                Enter your travel preferences above, then select
+                                “Find my destinations” to explore your recommendations.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Itinerary and cost planning -->
+        <section class="section" id="trip-details">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Make it yours</p>
+                        <h2>From destination to departure</h2>
+                        <p>Review your selected destination, daily plan and estimated expenses in one place.</p>
+                    </div>
+                </div>
+
+                <!-- Summary values can be updated by app.js -->
+                <div class="panel trip-detail-panel" style="margin-bottom: 20px;">
+                    <div class="panel-heading" style="margin-bottom: 14px;">
+                        <div>
+                            <h3>Your trip overview</h3>
+                            <p>A quick summary of the preferences you're planning around.</p>
+                        </div>
+                        <span class="step-pill">YOUR TRIP</span>
+                    </div>
+
+                    <div class="trust-strip" style="padding: 8px 0; grid-template-columns: repeat(4, minmax(0, 1fr));">
+                        <div class="trust-item">
+                            <div class="trust-icon" aria-hidden="true">↗</div>
+                            <div>
+                                <strong>Origin</strong>
+                                <span id="summary-origin">Not selected yet</span>
+                            </div>
+                        </div>
+
+                        <div class="trust-item">
+                            <div class="trust-icon" aria-hidden="true">◷</div>
+                            <div>
+                                <strong>Duration</strong>
+                                <span id="summary-duration">3 days</span>
+                            </div>
+                        </div>
+
+                        <div class="trust-item">
+                            <div class="trust-icon" aria-hidden="true">♙</div>
+                            <div>
+                                <strong>Travellers</strong>
+                                <span id="summary-travellers">2 travellers</span>
+                            </div>
+                        </div>
+
+                        <div class="trust-item">
+                            <div class="trust-icon" aria-hidden="true">₹</div>
+                            <div>
+                                <strong>Total budget</strong>
+                                <span id="summary-budget">₹40,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trip-detail-grid">
+
+                    <!-- Itinerary -->
+                    <div class="panel trip-detail-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Your personalised itinerary</h3>
+                                <p>Explore your planned activities, day by day.</p>
+                            </div>
+                            <span class="step-pill">DAY BY DAY</span>
+                        </div>
+
+                        <div id="selected-destination">
+                            Choose a destination above to start building your itinerary.
+                        </div>
+
+                        <div id="itinerary-results">
+                            <div class="empty-state">
+                                <div class="empty-state-icon" aria-hidden="true">▤</div>
+                                <h3>Your journey, thoughtfully organised</h3>
+                                <p>
+                                    Once you choose a destination, your itinerary will
+                                    appear here when connected to the planner.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Budget breakdown -->
+                    <div class="panel trip-detail-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Trip cost estimate</h3>
+                                <p>Understand your estimated expenses.</p>
+                            </div>
+                            <span class="step-pill">YOUR BUDGET</span>
+                        </div>
+
+                        <div id="budget-results">
+                            <div id="budget-summary">
+                                <strong>Budget overview</strong>
+                                <p style="margin: 7px 0 0;">
+                                    Your trip cost estimate will appear after your
+                                    travel details and destination are processed.
+                                </p>
+                            </div>
+
+                            <div id="budget-breakdown">
+                                <p style="color: var(--muted); font-size: 12px;">
+                                    The breakdown can include transport, accommodation,
+                                    food, local travel and activities, depending on the
+                                    data available.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+       
+        
+        
+<!-- Flight Search Styling -->
+<style>
+  #flight-search {
+    padding: 64px 0;
+    scroll-margin-top: 90px;
+    background:
+      radial-gradient(ellipse at 10% 0%, rgba(14, 165, 150, 0.09), transparent 45%),
+      #f4f7fb;
+  }
+
+  #flight-search .flight-panel {
+    padding: clamp(22px, 4vw, 40px);
+    border: 1px solid #e5ebf3;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 18px 55px rgba(22, 41, 67, 0.08);
+  }
+
+  #flight-search .flight-panel-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  #flight-search .flight-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: #e2f5ef;
+    color: #087f76;
+    font-size: 27px;
+  }
+
+  #flight-search .flight-panel-heading h3 {
+    margin: 0;
+    color: #142337;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  #flight-search .flight-panel-heading p {
+    margin: 5px 0 0;
+    color: #7b8799;
+    font-size: 13px;
+  }
+
+  #flight-search .flight-provider {
+    margin-left: auto;
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: #e8f7f2;
+    color: #087f76;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  #flight-search .flight-form {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 18px;
+    align-items: end;
+  }
+
+  #flight-search .flight-field {
+    min-width: 0;
+  }
+
+  #flight-search .flight-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #344257;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  #flight-search .flight-field .field-control {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+    padding: 0 14px;
+    border: 1px solid #dce4ee;
+    border-radius: 12px;
+    background: #fbfcfe;
+    color: #18283e;
+    font-size: 14px;
+  }
+
+  #flight-search .flight-field .field-control:focus {
+    outline: 3px solid rgba(11, 146, 134, 0.15);
+    border-color: #0b9286;
+    background: #fff;
+  }
+
+  #flight-search .flight-submit {
+    grid-column: 1 / -1;
+  }
+
+  #flight-search .flight-submit .button-primary {
+    width: 100%;
+    min-height: 54px;
+    border: 0;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #0b9286, #08766f);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(8, 127, 118, 0.2);
+  }
+
+  #flight-search .flight-submit .button-primary:hover {
+    background: #066b64;
+  }
+
+  #flight-search .flight-submit .button-primary:disabled {
+    opacity: 0.65;
+    cursor: wait;
+  }
+
+  #flight-search .flight-message {
+    margin-top: 20px;
+    color: #536276;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  #flight-search .flight-results {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  #flight-search .flight-result-card {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid #e5ebf3;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(22, 41, 67, 0.04);
+  }
+
+  #flight-search .flight-result-card h3 {
+    margin: 0 0 12px;
+    color: #142337;
+    font-size: 17px;
+  }
+
+  #flight-search .flight-result-card p {
+    margin: 9px 0 0;
+    color: #718096;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  #flight-search .flight-result-card p:first-of-type {
+    color: #087f76;
+    font-size: 25px;
+    font-weight: 800;
+  }
+
+  @media (max-width: 850px) {
+    #flight-search .flight-form {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    #flight-search {
+      padding: 40px 0;
+    }
+
+    #flight-search .flight-panel {
+      padding: 20px;
+      border-radius: 18px;
+    }
+
+    #flight-search .flight-provider {
+      margin-left: 0;
+    }
+
+    #flight-search .flight-form,
+    #flight-search .flight-results {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<!-- Flight Search Section -->
+<section class="section" id="flight-search">
+  <div class="container">
+
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">LIVE FARE COMPARISON</p>
+        <h2>Find flights for your journey</h2>
+        <p>
+          Compare available flight offers before finalising your trip.
+        </p>
+      </div>
+    </div>
+
+    <div class="panel flight-panel">
+
+      <div class="flight-panel-heading">
+        <div class="flight-icon" aria-hidden="true">✈</div>
+
+        <div>
+          <h3>Search live flight prices</h3>
+          <p>Choose your route and departure date.</p>
+        </div>
+
+        <span class="flight-provider">Powered by Ignav</span>
+      </div>
+
+      <form id="flight-form" class="flight-form">
+
+        <div class="flight-field">
+          <label for="flight-origin">From · Airport code</label>
+          <input
+            class="field-control"
+            id="flight-origin"
+            name="origin"
+            type="text"
+            placeholder="MAA"
+            maxlength="3"
+            pattern="[A-Za-z]{3}"
+            title="Enter a three-letter airport code, such as MAA"
+            autocomplete="off"
+            autocapitalize="characters"
+            required
+          >
+        </div>
+
+        <div class="flight-field">
+          <label for="flight-destination">To · Airport code</label>
+          <input
+            class="field-control"
+            id="flight-destination"
+            name="destination"
+            type="text"
+            placeholder="BOM"
+            maxlength="3"
+            pattern="[A-Za-z]{3}"
+            title="Enter a three-letter airport code, such as BOM"
+            autocomplete="off"
+            autocapitalize="characters"
+            required
+          >
+        </div>
+
+        <div class="flight-field">
+          <label for="flight-date">Departure date</label>
+          <input
+            class="field-control"
+            id="flight-date"
+            name="departureDate"
+            type="date"
+            required
+          >
+        </div>
+
+        <div class="flight-field">
+          <label for="flight-adults">Adults (12+)</label>
+          <input
+            class="field-control"
+            id="flight-adults"
+            name="adults"
+            type="number"
+            min="1"
+            max="9"
+            value="1"
+            required
+          >
+        </div>
+
+        <div class="flight-submit">
+          <button
+            class="button-primary"
+            type="submit"
+            id="flight-search-button"
+          >
+            Search flights <span aria-hidden="true">→</span>
+          </button>
+        </div>
+
+      </form>
+
+      <p
+        id="flight-message"
+        class="flight-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+      <div
+        id="flight-results"
+        class="flight-results"
+        aria-live="polite"
+      ></div>
+
+    </div>
+  </div>
+</section>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <a class="brand" href="#home">
+                <span class="brand-mark" aria-hidden="true">✦</span>
+                <span>
+                    <span class="brand-name">SmartTrip</span>
+                    <span class="brand-caption">Travel smarter with AI</span>
+                </span>
+            </a>
+
+            <p>Discover more. Plan better. Travel your way.</p>
+
+            <div class="footer-note">
+                <span aria-hidden="true">✧</span>
+                <span>Travel cost figures may be estimates, not live prices.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Keep your existing JavaScript -->
+    <script src="app.js"></script>
+
+</body>
+</html>
